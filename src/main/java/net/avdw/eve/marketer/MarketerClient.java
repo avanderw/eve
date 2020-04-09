@@ -12,12 +12,25 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MarketerClient implements MarketerApi {
     @Override
     public List<TradeItem> request(MarketerRequest marketerRequest) {
         try {
-            URL url = new URL("https://api.evemarketer.com/ec/marketstat/json?typeid=16240,592&regionlimit=10000002&usesystem=30000142");
+            if (marketerRequest.goodIdList == null || marketerRequest.goodIdList.isEmpty()) {
+                throw new UnsupportedOperationException();
+            }
+
+            String urlString = "https://api.evemarketer.com/ec/marketstat/json?typeid=" + marketerRequest.goodIdList.stream().map(String::valueOf).collect(Collectors.joining(","));
+            if (marketerRequest.regionId != null) {
+                urlString += String.format("&regionlimit=%s", marketerRequest.regionId);
+            }
+            if (marketerRequest.systemId != null) {
+                urlString += String.format("&usesystem=%s", marketerRequest.systemId);
+            }
+            Logger.debug("Connecting to {}", urlString);
+            URL url = new URL(urlString);
             HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
             con.setRequestProperty("User-Agent", "java/8");
             con.setRequestMethod("GET");

@@ -4,12 +4,12 @@ import picocli.CommandLine;
 
 import java.util.List;
 
-@CommandLine.Command(name = "sell", description = "Show best places to sell goods")
-public class SellCli implements Runnable {
-    @CommandLine.Parameters(description = "Goods to trade", arity = "1..*")
-    private List<String> goodList;
+@CommandLine.Command(name = "find", description = "Find a profitable good to trade")
+public class FindCli implements Runnable {
     @CommandLine.Option(names = "--region")
     private List<String> regionList;
+    @CommandLine.Option(names = "--system")
+    private List<String> systemList;
 
     /**
      * Entry point for picocli.
