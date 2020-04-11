@@ -9,6 +9,7 @@ import org.tinylog.Logger;
 import picocli.CommandLine;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @CommandLine.Command(name = "trade", description = "Show price statistics for goods")
@@ -27,8 +28,9 @@ public class TradeCli implements Runnable {
     public void run() {
         MarketerRequest marketerRequest = new MarketerRequest();
         marketerRequest.goodIdList = Arrays.asList(16240, 592);
-        marketerRequest.regionId = 10000002; // The Forge
-        marketerRequest.systemId = 30000142; // Jita
+//        marketerRequest.regionId = 10000002; // The Forge
+//        marketerRequest.systemId = 30000142; // Jita
+        marketerRequest.goodIdList = Collections.singletonList(25594);
         MarketerApi marketerApi = new MarketerClient();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Logger.trace(gson.toJson(marketerApi.request(marketerRequest)));
