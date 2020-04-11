@@ -2,7 +2,7 @@ package net.avdw.eve.marketer.domain;
 
 public class TypeStat {
     public ForQuery forQuery;
-    public Integer volume;
+    public Long volume;
     public Double min;
     public Double fivePercent;
     public Double max;

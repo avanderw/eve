@@ -1,7 +1,7 @@
 package net.avdw.eve.domain;
 
 public class TradeStatistic {
-    public Integer volume;
+    public Long volume;
     public Double minPrice;
     public Double fivePercentPrice;
     public Double maxPrice;

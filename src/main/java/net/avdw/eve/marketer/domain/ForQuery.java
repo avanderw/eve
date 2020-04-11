@@ -4,9 +4,9 @@ import java.util.List;
 
 public class ForQuery {
     public boolean bid;
-    public List<Integer> types;
-    public List<Integer> regions;
-    public List<Integer> systems;
+    public List<Long> types;
+    public List<Long> regions;
+    public List<Long> systems;
     public Integer hours;
     public Integer minq;
 

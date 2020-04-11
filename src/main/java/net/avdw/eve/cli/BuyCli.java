@@ -1,11 +1,11 @@
-package net.avdw.eve.cli.main;
+package net.avdw.eve.cli;
 
 import picocli.CommandLine;
 
 import java.util.List;
 
-@CommandLine.Command(name = "sell", description = "Show best places to sell goods")
-public class SellCli implements Runnable {
+@CommandLine.Command(name = "buy", description = "Show best places to buy goods")
+public class BuyCli implements Runnable {
     @CommandLine.Parameters(description = "Goods to trade", arity = "1..*")
     private List<String> goodList;
     @CommandLine.Option(names = "--region")

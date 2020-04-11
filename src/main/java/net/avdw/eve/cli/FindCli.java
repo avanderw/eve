@@ -1,4 +1,4 @@
-package net.avdw.eve.cli.main;
+package net.avdw.eve.cli;
 
 import picocli.CommandLine;
 

@@ -18,16 +18,16 @@ public class MarketerClient implements MarketerApi {
     @Override
     public List<TradeItem> request(MarketerRequest marketerRequest) {
         try {
-            if (marketerRequest.goodIdList == null || marketerRequest.goodIdList.isEmpty()) {
+            if (marketerRequest.tradeItemIdList == null || marketerRequest.tradeItemIdList.isEmpty()) {
                 throw new UnsupportedOperationException();
             }
 
-            String urlString = "https://api.evemarketer.com/ec/marketstat/json?typeid=" + marketerRequest.goodIdList.stream().map(String::valueOf).collect(Collectors.joining(","));
-            if (marketerRequest.regionId != null) {
-                urlString += String.format("&regionlimit=%s", marketerRequest.regionId);
+            String urlString = "https://api.evemarketer.com/ec/marketstat/json?typeid=" + marketerRequest.tradeItemIdList.stream().map(String::valueOf).collect(Collectors.joining(","));
+            if (marketerRequest.region != null) {
+                urlString += String.format("&regionlimit=%s", marketerRequest.region.id);
             }
-            if (marketerRequest.systemId != null) {
-                urlString += String.format("&usesystem=%s", marketerRequest.systemId);
+            if (marketerRequest.solarSystem != null) {
+                urlString += String.format("&usesystem=%s", marketerRequest.solarSystem.id);
             }
             Logger.debug("Connecting to {}", urlString);
             URL url = new URL(urlString);
