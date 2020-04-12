@@ -10,11 +10,13 @@ public class StationBuilder implements TableBuilder<Station> {
     @Override
     public Station build(ResultSet resultSet) {
         Station station = new Station();
+        station.solarSystem = new SolarSystem();
+        station.region = new Region();
         try {
             station.stationId = resultSet.getLong("stationID");
             station.stationName = resultSet.getString("stationName");
-            station.solarSystemId = resultSet.getLong("solarSystemId");
-            station.regionId = resultSet.getLong("regionId");
+            station.solarSystem.id = resultSet.getLong("solarSystemId");
+            station.region.id = resultSet.getLong("regionId");
         } catch (SQLException e) {
             Logger.error(e.getMessage());
             Logger.debug(e);

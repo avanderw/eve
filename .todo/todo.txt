@@ -1,1 +1,4 @@
-2020-04-08 @Add integration to https://api.evemarketer.com/ec/
+2020-04-12 @Add list trade station names
+2020-04-12 @Add trade group selection to trade
+2020-04-13 @Add property for stations to always search for trade data
+x 2020-04-12 2020-04-08 @@Add integration to https://api.evemarketer.com/ec/

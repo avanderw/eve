@@ -74,7 +74,7 @@ public class TradeCli implements Runnable {
             TradeStationCache.MAJOR_TRADE_HUBS.forEach(stationId->{
                 List<Station> stationList = stationRepository.query(new StationByIdSpecification(stationId));
                 Station station = new SelectOption<Station>().select(stationList);
-                solarSystemList.add(station.solarSystemId.toString());
+                solarSystemList.add(station.solarSystem.id.toString());
             });
         }
 
@@ -85,7 +85,7 @@ public class TradeCli implements Runnable {
             TradeStationCache.NPC_NULLSEC_HUBS.forEach(stationId->{
                 List<Station> stationList = stationRepository.query(new StationByIdSpecification(stationId));
                 Station station = new SelectOption<Station>().select(stationList);
-                solarSystemList.add(station.solarSystemId.toString());
+                solarSystemList.add(station.solarSystem.id.toString());
             });
         }
 
@@ -161,7 +161,7 @@ public class TradeCli implements Runnable {
                     new Column().header("Min").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.buy.minPrice.setScale(0, RoundingMode.HALF_UP))),
                     new Column().header("Median").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.buy.median.setScale(0, RoundingMode.HALF_UP))),
                     new Column().header("WAvg").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.buy.weightedAverage.setScale(0, RoundingMode.HALF_UP))),
-                    new Column().header("Avg").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.buy.average.setScale(0, RoundingMode.HALF_UP))),
+                    new Column().header("Mean").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.buy.average.setScale(0, RoundingMode.HALF_UP))),
                     new Column().header("Max").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.buy.maxPrice.setScale(0, RoundingMode.HALF_UP))),
                     new Column().header("StdDev").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.buy.standardDeviation.setScale(0, RoundingMode.HALF_UP)))
             )));
@@ -173,7 +173,7 @@ public class TradeCli implements Runnable {
                     new Column().header("Min").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.sell.minPrice.setScale(0, RoundingMode.HALF_UP))),
                     new Column().header("Median").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.sell.median.setScale(0, RoundingMode.HALF_UP))),
                     new Column().header("WAvg").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.sell.weightedAverage.setScale(0, RoundingMode.HALF_UP))),
-                    new Column().header("Avg").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.sell.average.setScale(0, RoundingMode.HALF_UP))),
+                    new Column().header("Mean").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.sell.average.setScale(0, RoundingMode.HALF_UP))),
                     new Column().header("Max").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.sell.maxPrice.setScale(0, RoundingMode.HALF_UP))),
                     new Column().header("StdDev").dataAlign(HorizontalAlign.RIGHT).with(tradeItem -> NumberFormat.getInstance().format(tradeItem.sell.standardDeviation.setScale(0, RoundingMode.HALF_UP)))
             )));
