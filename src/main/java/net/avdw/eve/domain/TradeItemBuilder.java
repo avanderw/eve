@@ -11,7 +11,7 @@ public class TradeItemBuilder implements TableBuilder<TradeItem> {
     public TradeItem build(ResultSet resultSet) {
         TradeItem tradeItem = new TradeItem();
         try {
-            tradeItem.typeId = resultSet.getLong("typeId");
+            tradeItem.id = resultSet.getLong("typeId");
             tradeItem.groupId = resultSet.getLong("groupId");
             tradeItem.name = resultSet.getString("typeName");
             tradeItem.volume = resultSet.getFloat("volume");

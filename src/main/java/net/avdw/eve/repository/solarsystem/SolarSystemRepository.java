@@ -1,8 +1,8 @@
-package net.avdw.eve.repository;
+package net.avdw.eve.repository.solarsystem;
 
 import com.google.inject.Inject;
 import net.avdw.database.TableQuery;
-import net.avdw.eve.domain.Region;
+import net.avdw.eve.domain.SolarSystem;
 import net.avdw.repository.DatabaseSpecification;
 import net.avdw.repository.Repository;
 import net.avdw.repository.Specification;
@@ -10,33 +10,34 @@ import net.avdw.repository.Specification;
 import java.util.Collection;
 import java.util.List;
 
-public class RegionRepository implements Repository<Region> {
-    private TableQuery<Region> regionTableQuery;
+public class SolarSystemRepository implements Repository<SolarSystem> {
+    private TableQuery<SolarSystem> solarSystemTableQuery;
 
     @Inject
-    RegionRepository(final TableQuery<Region> regionTableQuery) {
-        this.regionTableQuery = regionTableQuery;
+    SolarSystemRepository(final TableQuery<SolarSystem> solarSystemTableQuery) {
+        this.solarSystemTableQuery = solarSystemTableQuery;
     }
 
     @Override
-    public void add(Region item) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void add(Collection<Region> items) {
+    public void add(SolarSystem item) {
         throw new UnsupportedOperationException();
 
     }
 
     @Override
-    public void update(Region item) {
+    public void add(Collection<SolarSystem> items) {
         throw new UnsupportedOperationException();
 
     }
 
     @Override
-    public void remove(Region item) {
+    public void update(SolarSystem item) {
+        throw new UnsupportedOperationException();
+
+    }
+
+    @Override
+    public void remove(SolarSystem item) {
         throw new UnsupportedOperationException();
 
     }
@@ -48,7 +49,7 @@ public class RegionRepository implements Repository<Region> {
     }
 
     @Override
-    public List<Region> query(Specification specification) {
-        return regionTableQuery.query((DatabaseSpecification) specification);
+    public List<SolarSystem> query(Specification specification) {
+        return solarSystemTableQuery.query((DatabaseSpecification) specification);
     }
 }

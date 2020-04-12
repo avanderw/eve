@@ -7,6 +7,6 @@ public class SolarSystem {
 
     @Override
     public String toString() {
-        return name;
+        return String.format("(%s) %s", id, name);
     }
 }

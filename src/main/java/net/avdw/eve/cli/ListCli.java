@@ -8,9 +8,9 @@ import net.avdw.eve.cache.TradeStationCache;
 import net.avdw.eve.domain.Region;
 import net.avdw.eve.domain.SolarSystem;
 import net.avdw.eve.domain.Station;
-import net.avdw.eve.repository.RegionByIdSpecification;
-import net.avdw.eve.repository.SolarSystemByIdSpecification;
-import net.avdw.eve.repository.StationByIdSpecification;
+import net.avdw.eve.repository.region.RegionByIdSpecification;
+import net.avdw.eve.repository.solarsystem.SolarSystemByIdSpecification;
+import net.avdw.eve.repository.station.StationByIdSpecification;
 import net.avdw.repository.Repository;
 import org.apache.commons.lang3.StringUtils;
 import picocli.CommandLine;
@@ -48,7 +48,7 @@ public class ListCli implements Runnable {
         System.out.println(AsciiTable.getTable(AsciiTable.BASIC_ASCII_NO_DATA_SEPARATORS, majorHubStationList, Arrays.asList(
                 new Column().headerAlign(HorizontalAlign.CENTER).header("Region").with(station -> station.region.name != null ? station.region.name : ""),
                 new Column().headerAlign(HorizontalAlign.CENTER).header("System").with(station -> station.solarSystem.name != null ? station.solarSystem.name : ""),
-                new Column().headerAlign(HorizontalAlign.CENTER).header("Station").dataAlign(HorizontalAlign.LEFT).with(station -> station.stationName != null ? station.stationName : "")
+                new Column().headerAlign(HorizontalAlign.CENTER).header("Station").dataAlign(HorizontalAlign.LEFT).with(station -> station.name != null ? station.name : "")
         )));
     }
 }

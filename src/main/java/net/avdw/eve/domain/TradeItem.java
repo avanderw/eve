@@ -1,7 +1,7 @@
 package net.avdw.eve.domain;
 
 public class TradeItem {
-    public Long typeId;
+    public Long id;
     public Long groupId;
     public Region region;
     public SolarSystem solarSystem;
@@ -12,6 +12,7 @@ public class TradeItem {
 
     @Override
     public String toString() {
-        return name;
+        return String.format("(%s) %s", id, name);
+
     }
 }

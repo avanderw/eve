@@ -1,4 +1,4 @@
-package net.avdw.eve.repository;
+package net.avdw.eve.repository.region;
 
 import net.avdw.repository.DatabaseSpecification;
 
@@ -11,6 +11,6 @@ public class RegionLikeNameSpecification implements DatabaseSpecification {
 
     @Override
     public String toSqlQuery() {
-        return String.format("SELECT * FROM mapRegions WHERE regionName like '%s%%'", regionName);
+        return String.format("SELECT * FROM mapRegions WHERE regionName like '%%%s%%'", regionName);
     }
 }

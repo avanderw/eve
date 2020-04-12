@@ -1,8 +1,8 @@
-package net.avdw.eve.repository;
+package net.avdw.eve.repository.tradeitem;
 
 import com.google.inject.Inject;
 import net.avdw.database.TableQuery;
-import net.avdw.eve.domain.SolarSystem;
+import net.avdw.eve.domain.TradeItem;
 import net.avdw.repository.DatabaseSpecification;
 import net.avdw.repository.Repository;
 import net.avdw.repository.Specification;
@@ -10,34 +10,34 @@ import net.avdw.repository.Specification;
 import java.util.Collection;
 import java.util.List;
 
-public class SolarSystemRepository implements Repository<SolarSystem> {
-    private TableQuery<SolarSystem> solarSystemTableQuery;
+public class TradeItemRepository implements Repository<TradeItem> {
+    private TableQuery<TradeItem> tradeItemTableQuery;
 
     @Inject
-    SolarSystemRepository(final TableQuery<SolarSystem> solarSystemTableQuery) {
-        this.solarSystemTableQuery = solarSystemTableQuery;
+    TradeItemRepository(TableQuery<TradeItem> tradeItemTableQuery) {
+        this.tradeItemTableQuery = tradeItemTableQuery;
     }
 
     @Override
-    public void add(SolarSystem item) {
+    public void add(TradeItem item) {
         throw new UnsupportedOperationException();
 
     }
 
     @Override
-    public void add(Collection<SolarSystem> items) {
+    public void add(Collection<TradeItem> items) {
         throw new UnsupportedOperationException();
 
     }
 
     @Override
-    public void update(SolarSystem item) {
+    public void update(TradeItem item) {
         throw new UnsupportedOperationException();
 
     }
 
     @Override
-    public void remove(SolarSystem item) {
+    public void remove(TradeItem item) {
         throw new UnsupportedOperationException();
 
     }
@@ -49,7 +49,9 @@ public class SolarSystemRepository implements Repository<SolarSystem> {
     }
 
     @Override
-    public List<SolarSystem> query(Specification specification) {
-        return solarSystemTableQuery.query((DatabaseSpecification) specification);
+    public List<TradeItem> query(Specification specification) {
+        return tradeItemTableQuery.query((DatabaseSpecification) specification);
     }
 }
+
+

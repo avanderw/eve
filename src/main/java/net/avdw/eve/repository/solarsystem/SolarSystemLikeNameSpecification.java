@@ -1,4 +1,4 @@
-package net.avdw.eve.repository;
+package net.avdw.eve.repository.solarsystem;
 
 import net.avdw.repository.DatabaseSpecification;
 
@@ -11,6 +11,6 @@ public class SolarSystemLikeNameSpecification implements DatabaseSpecification {
 
     @Override
     public String toSqlQuery() {
-        return String.format("SELECT * FROM mapSolarSystems WHERE solarSystemName like '%s%%'", systemName);
+        return String.format("SELECT * FROM mapSolarSystems WHERE solarSystemName like '%%%s%%'", systemName);
     }
 }

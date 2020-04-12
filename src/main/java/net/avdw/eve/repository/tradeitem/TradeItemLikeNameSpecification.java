@@ -1,4 +1,4 @@
-package net.avdw.eve.repository;
+package net.avdw.eve.repository.tradeitem;
 
 import net.avdw.repository.DatabaseSpecification;
 
@@ -11,6 +11,6 @@ public class TradeItemLikeNameSpecification implements DatabaseSpecification {
 
     @Override
     public String toSqlQuery() {
-        return String.format("SELECT * FROM invtypes WHERE typeName like '%s%%'", goodName);
+        return String.format("SELECT * FROM invtypes WHERE typeName like '%%%s%%'", goodName);
     }
 }

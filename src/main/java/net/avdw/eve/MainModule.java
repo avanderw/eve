@@ -8,10 +8,11 @@ import com.google.inject.name.Names;
 import net.avdw.database.DbConnection;
 import net.avdw.database.TableBuilder;
 import net.avdw.eve.domain.*;
-import net.avdw.eve.repository.RegionRepository;
-import net.avdw.eve.repository.SolarSystemRepository;
-import net.avdw.eve.repository.StationRepository;
-import net.avdw.eve.repository.TradeItemRepository;
+import net.avdw.eve.repository.region.RegionRepository;
+import net.avdw.eve.repository.solarsystem.SolarSystemRepository;
+import net.avdw.eve.repository.station.StationRepository;
+import net.avdw.eve.repository.tradeitem.TradeItemRepository;
+import net.avdw.eve.repository.tradeitemgroup.TradeItemGroupRepository;
 import net.avdw.property.AbstractPropertyModule;
 import net.avdw.repository.Repository;
 import org.tinylog.Logger;
@@ -38,6 +39,8 @@ class MainModule extends AbstractPropertyModule {
         }).to(RegionRepository.class);
         bind(new TypeLiteral<Repository<Station>>() {
         }).to(StationRepository.class);
+        bind(new TypeLiteral<Repository<TradeItemGroup>>() {
+        }).to(TradeItemGroupRepository.class);
 
         bind(new TypeLiteral<TableBuilder<Region>>() {
         }).to(RegionBuilder.class);
@@ -47,6 +50,8 @@ class MainModule extends AbstractPropertyModule {
         }).to(TradeItemBuilder.class);
         bind(new TypeLiteral<TableBuilder<Station>>() {
         }).to(StationBuilder.class);
+        bind(new TypeLiteral<TableBuilder<TradeItemGroup>>() {
+        }).to(TradeItemGroupBuilder.class);
 
 
     }

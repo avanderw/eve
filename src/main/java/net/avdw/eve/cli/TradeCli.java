@@ -11,7 +11,15 @@ import net.avdw.eve.cache.TradeStationCache;
 import net.avdw.eve.marketer.MarketerApi;
 import net.avdw.eve.marketer.MarketerClient;
 import net.avdw.eve.marketer.MarketerRequest;
-import net.avdw.eve.repository.*;
+import net.avdw.eve.repository.region.RegionByIdSpecification;
+import net.avdw.eve.repository.region.RegionLikeNameSpecification;
+import net.avdw.eve.repository.solarsystem.SolarSystemByIdSpecification;
+import net.avdw.eve.repository.solarsystem.SolarSystemLikeNameSpecification;
+import net.avdw.eve.repository.station.StationByIdSpecification;
+import net.avdw.eve.repository.tradeitem.TradeItemByGroupIdSpecification;
+import net.avdw.eve.repository.tradeitem.TradeItemByIdSpecification;
+import net.avdw.eve.repository.tradeitem.TradeItemLikeNameSpecification;
+import net.avdw.eve.repository.tradeitemgroup.TradeItemGroupLikeNameSpecification;
 import net.avdw.repository.Repository;
 import org.apache.commons.lang3.StringUtils;
 import org.tinylog.Logger;
@@ -27,8 +35,10 @@ import java.util.stream.Collectors;
 
 @CommandLine.Command(name = "trade", description = "Show price statistics for trade items")
 public class TradeCli implements Runnable {
-    @CommandLine.Parameters(description = "Trade item", arity = "1..*")
+    @CommandLine.Parameters(description = "Trade item", arity = "0..*")
     private List<String> tradeItemList;
+    @CommandLine.Option(names = "--group", description = "Add all items from a group")
+    private List<String> groupItemList;
     @CommandLine.Option(names = "--region", description = "Region to check")
     private List<String> regionList;
     @CommandLine.Option(names = "--system", description = "System to check")
@@ -46,26 +56,39 @@ public class TradeCli implements Runnable {
     private Repository<Region> regionRepository;
     @Inject
     private Repository<Station> stationRepository;
+    @Inject
+    private Repository<TradeItemGroup> tradeItemGroupRepository;
 
     /**
      * Entry point for picocli.
      */
     @Override
     public void run() {
-        List<TradeItem> searchTradeItemList = this.tradeItemList.stream().map(good -> {
-            Logger.debug("Looking up good: {}", good);
-            TradeItem tradeItem;
-            try {
-                Integer goodId = Integer.parseInt(good);
-                List<TradeItem> tradeItemByIdList = tradeItemRepository.query(new TradeItemByIdSpecification(goodId));
-                tradeItem = new SelectOption<TradeItem>().select(tradeItemByIdList);
-            } catch (RuntimeException e) {
-                List<TradeItem> tradeItemByNameList = tradeItemRepository.query(new TradeItemLikeNameSpecification(good));
-                tradeItem = new SelectOption<TradeItem>().select(tradeItemByNameList);
-            }
-            Logger.debug("Found: {}", tradeItem);
-            return tradeItem;
-        }).collect(Collectors.toList());
+        List<TradeItem> searchTradeItemList = new ArrayList<>();
+        if (groupItemList != null) {
+            groupItemList.forEach(groupItem -> {
+                List<TradeItemGroup> tradeItemGroupList = tradeItemGroupRepository.query(new TradeItemGroupLikeNameSpecification(groupItem));
+                TradeItemGroup tradeItemGroup = new SelectOption<TradeItemGroup>().select(tradeItemGroupList);
+                searchTradeItemList.addAll(tradeItemRepository.query(new TradeItemByGroupIdSpecification(tradeItemGroup.id)));
+            });
+        }
+
+        if (tradeItemList != null) {
+            searchTradeItemList.addAll(this.tradeItemList.stream().map(good -> {
+                Logger.debug("Looking up good: {}", good);
+                TradeItem tradeItem;
+                try {
+                    Integer goodId = Integer.parseInt(good);
+                    List<TradeItem> tradeItemByIdList = tradeItemRepository.query(new TradeItemByIdSpecification(goodId));
+                    tradeItem = new SelectOption<TradeItem>().select(tradeItemByIdList);
+                } catch (RuntimeException e) {
+                    List<TradeItem> tradeItemByNameList = tradeItemRepository.query(new TradeItemLikeNameSpecification(good));
+                    tradeItem = new SelectOption<TradeItem>().select(tradeItemByNameList);
+                }
+                Logger.debug("Found: {}", tradeItem);
+                return tradeItem;
+            }).collect(Collectors.toList()));
+        }
 
         if (addMajorHubs) {
             if (solarSystemList == null) {
@@ -90,7 +113,7 @@ public class TradeCli implements Runnable {
         }
 
         List<MarketerRequest> marketerRequestList = new ArrayList<>();
-        List<Long> tradeItemIdList = searchTradeItemList.stream().map(tradeItem -> tradeItem.typeId).collect(Collectors.toList());
+        List<Long> tradeItemIdList = searchTradeItemList.stream().map(tradeItem -> tradeItem.id).collect(Collectors.toList());
         if (solarSystemList != null && !solarSystemList.isEmpty()) {
             solarSystemList.forEach(solarSystem -> {
                 MarketerRequest marketerRequest = new MarketerRequest();
@@ -130,7 +153,7 @@ public class TradeCli implements Runnable {
             List<TradeItem> tradeItemStatisticList = marketerApi.request(marketerRequest);
             tradeItemStatisticList.forEach(tradeItemStatistic -> {
                 TradeItem searchTradeItem = searchTradeItemList.stream()
-                        .filter(item -> item.typeId.equals(tradeItemStatistic.typeId))
+                        .filter(item -> item.id.equals(tradeItemStatistic.id))
                         .findAny()
                         .orElseThrow(UnsupportedOperationException::new);
                 DomainMapper.INSTANCE.toTradeItem(searchTradeItem, tradeItemStatistic, marketerRequest);
@@ -140,7 +163,7 @@ public class TradeCli implements Runnable {
         completeTradeItemList.forEach(tradeItem -> Logger.trace(gson.toJson(tradeItem)));
 
         Map<Long, List<TradeItem>> groupByTypeId = completeTradeItemList.stream()
-                .collect(Collectors.groupingBy(tradeItem -> tradeItem.typeId != null ? tradeItem.typeId : -1));
+                .collect(Collectors.groupingBy(tradeItem -> tradeItem.id != null ? tradeItem.id : -1));
         Map<Long, List<TradeItem>> groupBySystemId = completeTradeItemList.stream()
                 .collect(Collectors.groupingBy(tradeItem -> tradeItem.solarSystem.id != null ? tradeItem.solarSystem.id : -1));
         groupBySystemId.forEach((solarSystemId, tradeItemList) -> {

@@ -28,7 +28,7 @@ public interface MarketerMapper {
     TradeStatistic toTradeStatistic(TypeStat typeStat);
 
     @Mappings({
-            @Mapping(target = "typeId", source = "type.buy.forQuery.types", qualifiedBy = FirstElement.class),
+            @Mapping(target = "id", source = "type.buy.forQuery.types", qualifiedBy = FirstElement.class),
             @Mapping(target = "region.id", source = "type.buy.forQuery.regions", qualifiedBy = FirstElement.class),
             @Mapping(target = "solarSystem.id", source = "type.buy.forQuery.systems", qualifiedBy = FirstElement.class)
     })

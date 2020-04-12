@@ -13,8 +13,8 @@ public class StationBuilder implements TableBuilder<Station> {
         station.solarSystem = new SolarSystem();
         station.region = new Region();
         try {
-            station.stationId = resultSet.getLong("stationID");
-            station.stationName = resultSet.getString("stationName");
+            station.id = resultSet.getLong("stationID");
+            station.name = resultSet.getString("stationName");
             station.solarSystem.id = resultSet.getLong("solarSystemId");
             station.region.id = resultSet.getLong("regionId");
         } catch (SQLException e) {

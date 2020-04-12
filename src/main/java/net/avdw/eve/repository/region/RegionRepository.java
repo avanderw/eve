@@ -1,8 +1,8 @@
-package net.avdw.eve.repository;
+package net.avdw.eve.repository.region;
 
 import com.google.inject.Inject;
 import net.avdw.database.TableQuery;
-import net.avdw.eve.domain.TradeItem;
+import net.avdw.eve.domain.Region;
 import net.avdw.repository.DatabaseSpecification;
 import net.avdw.repository.Repository;
 import net.avdw.repository.Specification;
@@ -10,34 +10,33 @@ import net.avdw.repository.Specification;
 import java.util.Collection;
 import java.util.List;
 
-public class TradeItemRepository implements Repository<TradeItem> {
-    private TableQuery<TradeItem> tradeItemTableQuery;
+public class RegionRepository implements Repository<Region> {
+    private TableQuery<Region> regionTableQuery;
 
     @Inject
-    TradeItemRepository(TableQuery<TradeItem> tradeItemTableQuery) {
-        this.tradeItemTableQuery = tradeItemTableQuery;
+    RegionRepository(final TableQuery<Region> regionTableQuery) {
+        this.regionTableQuery = regionTableQuery;
     }
 
     @Override
-    public void add(TradeItem item) {
+    public void add(Region item) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void add(Collection<Region> items) {
         throw new UnsupportedOperationException();
 
     }
 
     @Override
-    public void add(Collection<TradeItem> items) {
+    public void update(Region item) {
         throw new UnsupportedOperationException();
 
     }
 
     @Override
-    public void update(TradeItem item) {
-        throw new UnsupportedOperationException();
-
-    }
-
-    @Override
-    public void remove(TradeItem item) {
+    public void remove(Region item) {
         throw new UnsupportedOperationException();
 
     }
@@ -49,9 +48,7 @@ public class TradeItemRepository implements Repository<TradeItem> {
     }
 
     @Override
-    public List<TradeItem> query(Specification specification) {
-        return tradeItemTableQuery.query((DatabaseSpecification) specification);
+    public List<Region> query(Specification specification) {
+        return regionTableQuery.query((DatabaseSpecification) specification);
     }
 }
-
-

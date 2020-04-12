@@ -1,4 +1,4 @@
-package net.avdw.eve.repository;
+package net.avdw.eve.repository.station;
 
 import net.avdw.repository.DatabaseSpecification;
 

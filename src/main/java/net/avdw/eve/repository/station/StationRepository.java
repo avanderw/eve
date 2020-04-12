@@ -1,4 +1,4 @@
-package net.avdw.eve.repository;
+package net.avdw.eve.repository.station;
 
 import com.google.inject.Inject;
 import net.avdw.database.TableQuery;
