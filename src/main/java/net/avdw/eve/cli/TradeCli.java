@@ -6,10 +6,8 @@ import com.github.freva.asciitable.HorizontalAlign;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
-import net.avdw.eve.domain.DomainMapper;
-import net.avdw.eve.domain.Region;
-import net.avdw.eve.domain.SolarSystem;
-import net.avdw.eve.domain.TradeItem;
+import net.avdw.eve.domain.*;
+import net.avdw.eve.cache.TradeStationCache;
 import net.avdw.eve.marketer.MarketerApi;
 import net.avdw.eve.marketer.MarketerClient;
 import net.avdw.eve.marketer.MarketerRequest;
@@ -35,6 +33,10 @@ public class TradeCli implements Runnable {
     private List<String> regionList;
     @CommandLine.Option(names = "--system", description = "System to check")
     private List<String> solarSystemList;
+    @CommandLine.Option(names = "--major-hubs", description = "Check major hubs")
+    private boolean addMajorHubs = false;
+    @CommandLine.Option(names = "--nullsec-hubs", description = "Check nullsec hubs")
+    private boolean addNullSecHubs = false;
 
     @Inject
     private Repository<TradeItem> tradeItemRepository;
@@ -42,6 +44,8 @@ public class TradeCli implements Runnable {
     private Repository<SolarSystem> solarSystemRepository;
     @Inject
     private Repository<Region> regionRepository;
+    @Inject
+    private Repository<Station> stationRepository;
 
     /**
      * Entry point for picocli.
@@ -62,6 +66,28 @@ public class TradeCli implements Runnable {
             Logger.debug("Found: {}", tradeItem);
             return tradeItem;
         }).collect(Collectors.toList());
+
+        if (addMajorHubs) {
+            if (solarSystemList == null) {
+                solarSystemList = new ArrayList<>();
+            }
+            TradeStationCache.MAJOR_TRADE_HUBS.forEach(stationId->{
+                List<Station> stationList = stationRepository.query(new StationByIdSpecification(stationId));
+                Station station = new SelectOption<Station>().select(stationList);
+                solarSystemList.add(station.solarSystemId.toString());
+            });
+        }
+
+        if (addNullSecHubs) {
+            if (solarSystemList == null) {
+                solarSystemList = new ArrayList<>();
+            }
+            TradeStationCache.NPC_NULLSEC_HUBS.forEach(stationId->{
+                List<Station> stationList = stationRepository.query(new StationByIdSpecification(stationId));
+                Station station = new SelectOption<Station>().select(stationList);
+                solarSystemList.add(station.solarSystemId.toString());
+            });
+        }
 
         List<MarketerRequest> marketerRequestList = new ArrayList<>();
         List<Long> tradeItemIdList = searchTradeItemList.stream().map(tradeItem -> tradeItem.typeId).collect(Collectors.toList());

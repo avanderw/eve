@@ -10,6 +10,7 @@ import net.avdw.database.TableBuilder;
 import net.avdw.eve.domain.*;
 import net.avdw.eve.repository.RegionRepository;
 import net.avdw.eve.repository.SolarSystemRepository;
+import net.avdw.eve.repository.StationRepository;
 import net.avdw.eve.repository.TradeItemRepository;
 import net.avdw.property.AbstractPropertyModule;
 import net.avdw.repository.Repository;
@@ -35,6 +36,8 @@ class MainModule extends AbstractPropertyModule {
         }).to(SolarSystemRepository.class);
         bind(new TypeLiteral<Repository<Region>>() {
         }).to(RegionRepository.class);
+        bind(new TypeLiteral<Repository<Station>>() {
+        }).to(StationRepository.class);
 
         bind(new TypeLiteral<TableBuilder<Region>>() {
         }).to(RegionBuilder.class);
@@ -42,6 +45,8 @@ class MainModule extends AbstractPropertyModule {
         }).to(SolarSystemBuilder.class);
         bind(new TypeLiteral<TableBuilder<TradeItem>>() {
         }).to(TradeItemBuilder.class);
+        bind(new TypeLiteral<TableBuilder<Station>>() {
+        }).to(StationBuilder.class);
 
 
     }
