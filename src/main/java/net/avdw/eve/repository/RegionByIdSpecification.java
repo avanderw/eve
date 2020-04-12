@@ -3,9 +3,9 @@ package net.avdw.eve.repository;
 import net.avdw.repository.DatabaseSpecification;
 
 public class RegionByIdSpecification implements DatabaseSpecification {
-    private Integer regionId;
+    private Long regionId;
 
-    public RegionByIdSpecification(Integer regionId) {
+    public RegionByIdSpecification(Long regionId) {
         this.regionId = regionId;
     }
 

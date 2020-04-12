@@ -3,9 +3,9 @@ package net.avdw.eve.repository;
 import net.avdw.repository.DatabaseSpecification;
 
 public class SolarSystemByIdSpecification implements DatabaseSpecification {
-    private Integer systemId;
+    private Long systemId;
 
-    public SolarSystemByIdSpecification(Integer systemId) {
+    public SolarSystemByIdSpecification(Long systemId) {
         this.systemId = systemId;
     }
 

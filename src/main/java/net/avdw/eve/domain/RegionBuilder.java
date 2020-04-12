@@ -13,6 +13,7 @@ public class RegionBuilder implements TableBuilder<Region> {
         Region region = new Region();
         try {
             region.id = resultSet.getLong("regionId");
+            region.name = resultSet.getString("regionName");
         } catch (SQLException e) {
             Logger.error(e.getMessage());
             Logger.debug(e);

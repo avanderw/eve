@@ -29,8 +29,8 @@ public interface MarketerMapper {
 
     @Mappings({
             @Mapping(target = "typeId", source = "type.buy.forQuery.types", qualifiedBy = FirstElement.class),
-            @Mapping(target = "regionId", source = "type.buy.forQuery.regions", qualifiedBy = FirstElement.class),
-            @Mapping(target = "systemId", source = "type.buy.forQuery.systems", qualifiedBy = FirstElement.class)
+            @Mapping(target = "region.id", source = "type.buy.forQuery.regions", qualifiedBy = FirstElement.class),
+            @Mapping(target = "solarSystem.id", source = "type.buy.forQuery.systems", qualifiedBy = FirstElement.class)
     })
     TradeItem toTradeItem(Type type);
 }

@@ -8,4 +8,5 @@
     <include file="changelog/mapConstellations.sql" relativeToChangelogFile="true"/>
     <include file="changelog/mapRegions.sql" relativeToChangelogFile="true"/>
     <include file="changelog/mapSolarSystems.sql" relativeToChangelogFile="true"/>
+    <include file="changelog/staStations.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
