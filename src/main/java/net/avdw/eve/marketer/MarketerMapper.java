@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper (uses = IterableNonIterableUtil.class)
+@Mapper(uses = IterableNonIterableUtil.class)
 public interface MarketerMapper {
     MarketerMapper INSTANCE = Mappers.getMapper(MarketerMapper.class);
 
@@ -28,9 +28,9 @@ public interface MarketerMapper {
     TradeStatistic toTradeStatistic(TypeStat typeStat);
 
     @Mappings({
-            @Mapping(target="typeId", source = "type.buy.forQuery.types", qualifiedBy = FirstElement.class),
-            @Mapping(target="regionId", source = "type.buy.forQuery.regions", qualifiedBy = FirstElement.class),
-            @Mapping(target="systemId", source = "type.buy.forQuery.systems", qualifiedBy = FirstElement.class)
+            @Mapping(target = "typeId", source = "type.buy.forQuery.types", qualifiedBy = FirstElement.class),
+            @Mapping(target = "regionId", source = "type.buy.forQuery.regions", qualifiedBy = FirstElement.class),
+            @Mapping(target = "systemId", source = "type.buy.forQuery.systems", qualifiedBy = FirstElement.class)
     })
     TradeItem toTradeItem(Type type);
 }

@@ -18,6 +18,7 @@ public class LiquibaseRunner {
     LiquibaseRunner(@DbConnection final Connection connection) {
         this.connection = connection;
     }
+
     public void update() {
         Liquibase liquibase = null;
         try {

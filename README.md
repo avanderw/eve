@@ -8,6 +8,9 @@
 ## Getting started
 
 ## Usage
+```shell script
+./java -jar eve-1.0-SNAPSHOT-jar-with-dependencies trade 16240 592 Tritanium "Nova Heavy Missile" --system 30000142 --system Amarr --region 10000033
+```
 
 ## Support
 

@@ -24,7 +24,7 @@ public class PropertyConfigurer {
         prioritizedProperties.putAll(defaultProperties);
         prioritizedProperties.putAll(localProperties);
         prioritizedProperties.putAll(globalProperties);
-        prioritizedProperties.forEach((key, value)-> Logger.debug("{}={}", key, value));
+        prioritizedProperties.forEach((key, value) -> Logger.debug("{}={}", key, value));
         return prioritizedProperties;
     }
 }

@@ -1,14 +1,16 @@
 package net.avdw.eve.repository;
 
 import net.avdw.repository.DatabaseSpecification;
-import net.avdw.repository.Specification;
 
 public class RegionByIdSpecification implements DatabaseSpecification {
+    private Integer regionId;
+
     public RegionByIdSpecification(Integer regionId) {
+        this.regionId = regionId;
     }
 
     @Override
     public String toSqlQuery() {
-        throw new UnsupportedOperationException();
+        return String.format("SELECT * FROM mapRegions WHERE regionId = %s", regionId);
     }
 }

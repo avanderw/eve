@@ -3,6 +3,7 @@ package net.avdw.eve.cli;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
+import net.avdw.eve.domain.DomainMapper;
 import net.avdw.eve.domain.Region;
 import net.avdw.eve.domain.SolarSystem;
 import net.avdw.eve.domain.TradeItem;
@@ -18,13 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CommandLine.Command(name = "trade", description = "Show price statistics for goods")
+@CommandLine.Command(name = "trade", description = "Show price statistics for trade items")
 public class TradeCli implements Runnable {
-    @CommandLine.Parameters(description = "Good to trade", arity = "1..*")
-    private List<String> goodList;
-    @CommandLine.Option(names = "--region")
+    @CommandLine.Parameters(description = "Trade item", arity = "1..*")
+    private List<String> tradeItemList;
+    @CommandLine.Option(names = "--region", description = "Region to check")
     private List<String> regionList;
-    @CommandLine.Option(names = "--system")
+    @CommandLine.Option(names = "--system", description = "System to check")
     private List<String> solarSystemList;
 
     @Inject
@@ -39,7 +40,7 @@ public class TradeCli implements Runnable {
      */
     @Override
     public void run() {
-        List<TradeItem> tradeItemList = this.goodList.stream().map(good -> {
+        List<TradeItem> searchTradeItemList = this.tradeItemList.stream().map(good -> {
             Logger.debug("Looking up good: {}", good);
             TradeItem tradeItem;
             try {
@@ -58,7 +59,7 @@ public class TradeCli implements Runnable {
 //        marketerRequest.systemId = 30000142; // Jita
 
         List<MarketerRequest> marketerRequestList = new ArrayList<>();
-        List<Long> tradeItemIdList = tradeItemList.stream().map(tradeItem -> tradeItem.typeId).collect(Collectors.toList());
+        List<Long> tradeItemIdList = searchTradeItemList.stream().map(tradeItem -> tradeItem.typeId).collect(Collectors.toList());
         if (solarSystemList != null && !solarSystemList.isEmpty()) {
             solarSystemList.forEach(solarSystem -> {
                 MarketerRequest marketerRequest = new MarketerRequest();
@@ -73,7 +74,8 @@ public class TradeCli implements Runnable {
                 }
                 marketerRequestList.add(marketerRequest);
             });
-        } else if (regionList != null && !regionList.isEmpty()) {
+        }
+        if (regionList != null && !regionList.isEmpty()) {
             regionList.forEach(region -> {
                 MarketerRequest marketerRequest = new MarketerRequest();
                 marketerRequest.tradeItemIdList = tradeItemIdList;
@@ -87,16 +89,25 @@ public class TradeCli implements Runnable {
                 }
                 marketerRequestList.add(marketerRequest);
             });
-        } else {
-            MarketerRequest marketerRequest = new MarketerRequest();
-            marketerRequest.tradeItemIdList = tradeItemIdList;
-            marketerRequestList.add(marketerRequest);
         }
+        MarketerRequest globalMarketerRequest = new MarketerRequest();
+        globalMarketerRequest.tradeItemIdList = tradeItemIdList;
+        marketerRequestList.add(globalMarketerRequest);
 
+        List<TradeItem> completeTradeItem = new ArrayList<>();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         MarketerApi marketerApi = new MarketerClient();
         marketerRequestList.forEach(marketerRequest -> {
-            Logger.trace(gson.toJson(marketerApi.request(marketerRequest)));
+            List<TradeItem> tradeItemStatisticList = marketerApi.request(marketerRequest);
+            tradeItemStatisticList.forEach(tradeItemStatistic -> {
+                TradeItem searchTradeItem = searchTradeItemList.stream()
+                        .filter(item -> item.typeId.equals(tradeItemStatistic.typeId))
+                        .findAny()
+                        .orElseThrow(UnsupportedOperationException::new);
+                DomainMapper.INSTANCE.toTradeItem(searchTradeItem, tradeItemStatistic);
+                completeTradeItem.add(tradeItemStatistic);
+            });
         });
+        completeTradeItem.forEach(tradeItem -> Logger.trace(gson.toJson(tradeItem)));
     }
 }

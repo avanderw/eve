@@ -6,9 +6,8 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import net.avdw.database.DbConnection;
-import net.avdw.eve.domain.Region;
-import net.avdw.eve.domain.SolarSystem;
-import net.avdw.eve.domain.TradeItem;
+import net.avdw.database.TableBuilder;
+import net.avdw.eve.domain.*;
 import net.avdw.eve.repository.RegionRepository;
 import net.avdw.eve.repository.SolarSystemRepository;
 import net.avdw.eve.repository.TradeItemRepository;
@@ -32,10 +31,19 @@ class MainModule extends AbstractPropertyModule {
 
         bind(new TypeLiteral<Repository<TradeItem>>() {
         }).to(TradeItemRepository.class);
-        bind(new TypeLiteral<Repository<SolarSystem>>(){
+        bind(new TypeLiteral<Repository<SolarSystem>>() {
         }).to(SolarSystemRepository.class);
-        bind(new TypeLiteral<Repository<Region>>(){
+        bind(new TypeLiteral<Repository<Region>>() {
         }).to(RegionRepository.class);
+
+        bind(new TypeLiteral<TableBuilder<Region>>() {
+        }).to(RegionBuilder.class);
+        bind(new TypeLiteral<TableBuilder<SolarSystem>>() {
+        }).to(SolarSystemBuilder.class);
+        bind(new TypeLiteral<TableBuilder<TradeItem>>() {
+        }).to(TradeItemBuilder.class);
+
+
     }
 
     @Provides

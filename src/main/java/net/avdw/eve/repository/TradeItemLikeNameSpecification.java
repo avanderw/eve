@@ -1,7 +1,6 @@
 package net.avdw.eve.repository;
 
 import net.avdw.repository.DatabaseSpecification;
-import net.avdw.repository.Specification;
 
 public class TradeItemLikeNameSpecification implements DatabaseSpecification {
     private final String goodName;

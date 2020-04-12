@@ -2,14 +2,8 @@ package net.avdw.eve.cli;
 
 import picocli.CommandLine;
 
-import java.util.List;
-
 @CommandLine.Command(name = "find", description = "Find a profitable good to trade")
 public class FindCli implements Runnable {
-    @CommandLine.Option(names = "--region")
-    private List<String> regionList;
-    @CommandLine.Option(names = "--system")
-    private List<String> systemList;
 
     /**
      * Entry point for picocli.
