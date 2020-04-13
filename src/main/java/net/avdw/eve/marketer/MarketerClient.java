@@ -1,7 +1,7 @@
 package net.avdw.eve.marketer;
 
 import com.google.gson.Gson;
-import net.avdw.eve.domain.TradeItem;
+import net.avdw.eve.tradeitem.TradeItem;
 import net.avdw.eve.marketer.domain.Type;
 import org.tinylog.Logger;
 

@@ -11,15 +11,19 @@ import net.avdw.eve.cache.TradeStationCache;
 import net.avdw.eve.marketer.MarketerApi;
 import net.avdw.eve.marketer.MarketerClient;
 import net.avdw.eve.marketer.MarketerRequest;
-import net.avdw.eve.repository.region.RegionByIdSpecification;
-import net.avdw.eve.repository.region.RegionLikeNameSpecification;
-import net.avdw.eve.repository.solarsystem.SolarSystemByIdSpecification;
-import net.avdw.eve.repository.solarsystem.SolarSystemLikeNameSpecification;
-import net.avdw.eve.repository.station.StationByIdSpecification;
-import net.avdw.eve.repository.tradeitem.TradeItemByGroupIdSpecification;
-import net.avdw.eve.repository.tradeitem.TradeItemByIdSpecification;
-import net.avdw.eve.repository.tradeitem.TradeItemLikeNameSpecification;
-import net.avdw.eve.repository.tradeitemgroup.TradeItemGroupLikeNameSpecification;
+import net.avdw.eve.region.Region;
+import net.avdw.eve.region.repository.RegionByIdSpecification;
+import net.avdw.eve.region.repository.RegionLikeNameSpecification;
+import net.avdw.eve.solarsystem.SolarSystem;
+import net.avdw.eve.solarsystem.repository.SolarSystemByIdSpecification;
+import net.avdw.eve.solarsystem.repository.SolarSystemLikeNameSpecification;
+import net.avdw.eve.station.Station;
+import net.avdw.eve.station.repository.StationByIdSpecification;
+import net.avdw.eve.tradeitem.TradeItem;
+import net.avdw.eve.tradeitem.TradeItemLookup;
+import net.avdw.eve.tradeitem.repository.TradeItemByGroupIdSpecification;
+import net.avdw.eve.tradeitemgroup.TradeItemGroup;
+import net.avdw.eve.tradeitemgroup.repository.TradeItemGroupLikeNameSpecification;
 import net.avdw.repository.Repository;
 import org.apache.commons.lang3.StringUtils;
 import org.tinylog.Logger;
@@ -36,7 +40,7 @@ import java.util.stream.Collectors;
 @CommandLine.Command(name = "trade", description = "Show price statistics for trade items")
 public class TradeCli implements Runnable {
     @CommandLine.Parameters(description = "Trade item", arity = "0..*")
-    private List<String> tradeItemList;
+    private List<String> tradeItemSearchList;
     @CommandLine.Option(names = "--group", description = "Add all items from a group")
     private List<String> groupItemList;
     @CommandLine.Option(names = "--region", description = "Region to check")
@@ -58,6 +62,8 @@ public class TradeCli implements Runnable {
     private Repository<Station> stationRepository;
     @Inject
     private Repository<TradeItemGroup> tradeItemGroupRepository;
+    @Inject
+    private TradeItemLookup tradeItemLookup;
 
     /**
      * Entry point for picocli.
@@ -73,21 +79,10 @@ public class TradeCli implements Runnable {
             });
         }
 
-        if (tradeItemList != null) {
-            searchTradeItemList.addAll(this.tradeItemList.stream().map(good -> {
-                Logger.debug("Looking up good: {}", good);
-                TradeItem tradeItem;
-                try {
-                    Integer goodId = Integer.parseInt(good);
-                    List<TradeItem> tradeItemByIdList = tradeItemRepository.query(new TradeItemByIdSpecification(goodId));
-                    tradeItem = new SelectOption<TradeItem>().select(tradeItemByIdList);
-                } catch (RuntimeException e) {
-                    List<TradeItem> tradeItemByNameList = tradeItemRepository.query(new TradeItemLikeNameSpecification(good));
-                    tradeItem = new SelectOption<TradeItem>().select(tradeItemByNameList);
-                }
-                Logger.debug("Found: {}", tradeItem);
-                return tradeItem;
-            }).collect(Collectors.toList()));
+        if (tradeItemSearchList != null) {
+            searchTradeItemList.addAll(this.tradeItemSearchList.stream()
+                    .map(searchTerm -> tradeItemLookup.lookup(searchTerm))
+                    .collect(Collectors.toList()));
         }
 
         if (addMajorHubs) {

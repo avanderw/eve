@@ -32,6 +32,7 @@ public class TableQuery<T> {
             }
         } catch (SQLException e) {
             Logger.error(e.getMessage());
+            Logger.debug(sql);
             Logger.debug(e);
         }
         return list;

@@ -5,6 +5,7 @@ import picocli.CommandLine;
 @CommandLine.Command(name = "eve", description = "The eve tool to assist with trading", version = "1.0-SNAPSHOT", mixinStandardHelpOptions = true,
         subcommands = {
                 TradeCli.class,
+                SellCli.class,
                 ListCli.class
         })
 public class MainCli implements Runnable {

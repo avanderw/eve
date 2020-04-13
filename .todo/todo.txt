@@ -1,8 +1,10 @@
 2020-04-13 @Add property for stations to always search for trade data
 2020-04-13 @Fix error message when typing something that cannot be found
 2020-04-13 @Update messaging to indicate state of fetching or creating db
-2020-04-13 @Update trade to sort by mean
+x 2020-04-14 2020-04-13 @Update trade to sort by mean
 x 2020-04-12 2020-04-08 @@Add integration to https://api.evemarketer.com/ec/
 x 2020-04-13 2020-04-12 @Add list trade station names
 x 2020-04-13 2020-04-12 @Add trade group selection to trade
 x 2020-04-13 2020-04-13 @Update items to show ID in option list
+2020-04-13 @Refactor TradeStationCache to be in the sqlit database
+2020-04-13 Add buy on route functionality

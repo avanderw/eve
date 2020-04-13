@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SelectOption<T> {
-    T select(List<T> optionList) {
+    public T select(List<T> optionList) {
         T item;
         if (optionList == null || optionList.isEmpty()) {
             throw new UnsupportedOperationException("Option list is empty");

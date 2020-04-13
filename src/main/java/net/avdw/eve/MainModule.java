@@ -7,12 +7,21 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import net.avdw.database.DbConnection;
 import net.avdw.database.TableBuilder;
-import net.avdw.eve.domain.*;
-import net.avdw.eve.repository.region.RegionRepository;
-import net.avdw.eve.repository.solarsystem.SolarSystemRepository;
-import net.avdw.eve.repository.station.StationRepository;
-import net.avdw.eve.repository.tradeitem.TradeItemRepository;
-import net.avdw.eve.repository.tradeitemgroup.TradeItemGroupRepository;
+import net.avdw.eve.region.Region;
+import net.avdw.eve.region.RegionBuilder;
+import net.avdw.eve.region.repository.RegionRepository;
+import net.avdw.eve.solarsystem.SolarSystem;
+import net.avdw.eve.solarsystem.SolarSystemBuilder;
+import net.avdw.eve.solarsystem.repository.SolarSystemRepository;
+import net.avdw.eve.station.Station;
+import net.avdw.eve.station.StationBuilder;
+import net.avdw.eve.station.repository.StationRepository;
+import net.avdw.eve.tradeitem.TradeItem;
+import net.avdw.eve.tradeitem.TradeItemBuilder;
+import net.avdw.eve.tradeitem.repository.TradeItemRepository;
+import net.avdw.eve.tradeitemgroup.TradeItemGroup;
+import net.avdw.eve.tradeitemgroup.TradeItemGroupBuilder;
+import net.avdw.eve.tradeitemgroup.repository.TradeItemGroupRepository;
 import net.avdw.property.AbstractPropertyModule;
 import net.avdw.repository.Repository;
 import org.tinylog.Logger;
@@ -24,7 +33,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-class MainModule extends AbstractPropertyModule {
+public class MainModule extends AbstractPropertyModule {
     @Override
     protected void configure() {
         Properties properties = configureProperties();

@@ -1,6 +1,6 @@
 package net.avdw.eve.marketer;
 
-import net.avdw.eve.domain.TradeItem;
+import net.avdw.eve.tradeitem.TradeItem;
 import net.avdw.eve.domain.TradeStatistic;
 import net.avdw.eve.marketer.domain.Type;
 import net.avdw.eve.marketer.domain.TypeStat;
