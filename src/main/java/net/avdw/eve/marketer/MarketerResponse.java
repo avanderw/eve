@@ -1,6 +1,6 @@
 package net.avdw.eve.marketer;
 
-import net.avdw.eve.tradeitem.TradeItem;
+import net.avdw.eve.domain.tradeitem.TradeItem;
 
 import java.util.List;
 

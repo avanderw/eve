@@ -8,3 +8,6 @@ x 2020-04-13 2020-04-12 @Add trade group selection to trade
 x 2020-04-13 2020-04-13 @Update items to show ID in option list
 2020-04-13 @Refactor TradeStationCache to be in the sqlit database
 2020-04-13 Add buy on route functionality
+2020-04-14 Add blueprint coster at different trade hubs
+2020-04-14 @Update highest and lowest to contain the number
+2020-04-14 Add sum clipboard or interactive paste est. price

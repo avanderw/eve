@@ -1,8 +1,16 @@
 package net.avdw.eve.marketer;
 
 import com.google.gson.Gson;
-import net.avdw.eve.tradeitem.TradeItem;
+import com.google.inject.Inject;
+import net.avdw.eve.cli.SelectOption;
+import net.avdw.eve.domain.DomainMapper;
+import net.avdw.eve.domain.TradeItemSummary;
+import net.avdw.eve.domain.TradeItemSummaryBuilder;
+import net.avdw.eve.domain.region.Region;
+import net.avdw.eve.domain.region.repository.RegionByIdSpecification;
+import net.avdw.eve.domain.tradeitem.TradeItem;
 import net.avdw.eve.marketer.domain.Type;
+import net.avdw.repository.Repository;
 import org.tinylog.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -11,10 +19,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MarketerClient implements MarketerApi {
+    private Repository<Region> regionRepository;
+    private TradeItemSummaryBuilder tradeItemSummaryBuilder;
+
+    @Inject
+    MarketerClient(final Repository<Region> regionRepository, final TradeItemSummaryBuilder tradeItemSummaryBuilder) {
+        this.regionRepository = regionRepository;
+        this.tradeItemSummaryBuilder = tradeItemSummaryBuilder;
+    }
+
     @Override
     public List<TradeItem> request(MarketerRequest marketerRequest) {
         try {
@@ -60,5 +79,43 @@ public class MarketerClient implements MarketerApi {
         }
 
         return null;
+    }
+
+    @Override
+    public List<TradeItemSummary> request(List<MarketerRequest> marketerRequestList, List<TradeItem> tradeItemRequestList) {
+        List<TradeItem> tradeItemList = new ArrayList<>();
+        marketerRequestList.forEach(marketerRequest -> {
+            List<TradeItem> tradeItemResponseList = request(marketerRequest);
+            tradeItemResponseList.forEach(tradeItemResponse -> {
+                TradeItem tradeItemRequest = tradeItemRequestList.stream()
+                        .filter(item -> item.id.equals(tradeItemResponse.id))
+                        .findAny()
+                        .orElseThrow(UnsupportedOperationException::new);
+                DomainMapper.INSTANCE.toTradeItem(tradeItemRequest, tradeItemResponse, marketerRequest);
+                tradeItemList.add(tradeItemResponse);
+            });
+        });
+
+        Map<Long, List<TradeItem>> groupBySystemId = tradeItemList.stream()
+                .collect(Collectors.groupingBy(tradeItem -> tradeItem.solarSystem.id != null ? tradeItem.solarSystem.id : -1));
+        groupBySystemId.forEach((solarSystemId, list) -> {
+            if (solarSystemId != -1) {
+                List<Region> regionList = regionRepository.query(new RegionByIdSpecification(list.get(0).region.id));
+                Region region = new SelectOption<Region>().select(regionList);
+                list.forEach(tradeItem -> tradeItem.region.name = region.name);
+            }
+        });
+
+        tradeItemList.forEach(tradeItem -> {
+            if (tradeItem.solarSystem.id != null && tradeItem.solarSystem.id != -1) {
+                tradeItem.locationName = tradeItem.solarSystem.name;
+            } else if (tradeItem.region.id != null && tradeItem.region.id != -1) {
+                tradeItem.locationName = tradeItem.region.name;
+            } else {
+                tradeItem.locationName = "Global";
+            }
+        });
+
+        return tradeItemSummaryBuilder.build(tradeItemList);
     }
 }

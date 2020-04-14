@@ -1,7 +1,7 @@
 package net.avdw.eve.marketer;
 
-import net.avdw.eve.tradeitem.TradeItem;
-import net.avdw.eve.domain.TradeStatistic;
+import net.avdw.eve.domain.tradeitem.TradeItem;
+import net.avdw.eve.domain.TradeOrder;
 import net.avdw.eve.marketer.domain.Type;
 import net.avdw.eve.marketer.domain.TypeStat;
 import org.mapstruct.Mapper;
@@ -25,7 +25,7 @@ public interface MarketerMapper {
             @Mapping(target = "weightedAverage", source = "wavg"),
             @Mapping(target = "standardDeviation", source = "stdDev")
     })
-    TradeStatistic toTradeStatistic(TypeStat typeStat);
+    TradeOrder toTradeStatistic(TypeStat typeStat);
 
     @Mappings({
             @Mapping(target = "id", source = "type.buy.forQuery.types", qualifiedBy = FirstElement.class),

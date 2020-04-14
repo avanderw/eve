@@ -3,7 +3,7 @@ package net.advw.eve.parser;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import net.avdw.eve.MainModule;
-import net.avdw.eve.tradeitem.TradeItemMarketClipboardParser;
+import net.avdw.eve.domain.tradeitem.TradeItemMarketClipboardParser;
 import org.junit.jupiter.api.Test;
 
 class MarketClipboardParserTest {

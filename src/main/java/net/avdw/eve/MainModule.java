@@ -7,21 +7,23 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import net.avdw.database.DbConnection;
 import net.avdw.database.TableBuilder;
-import net.avdw.eve.region.Region;
-import net.avdw.eve.region.RegionBuilder;
-import net.avdw.eve.region.repository.RegionRepository;
-import net.avdw.eve.solarsystem.SolarSystem;
-import net.avdw.eve.solarsystem.SolarSystemBuilder;
-import net.avdw.eve.solarsystem.repository.SolarSystemRepository;
-import net.avdw.eve.station.Station;
-import net.avdw.eve.station.StationBuilder;
-import net.avdw.eve.station.repository.StationRepository;
-import net.avdw.eve.tradeitem.TradeItem;
-import net.avdw.eve.tradeitem.TradeItemBuilder;
-import net.avdw.eve.tradeitem.repository.TradeItemRepository;
-import net.avdw.eve.tradeitemgroup.TradeItemGroup;
-import net.avdw.eve.tradeitemgroup.TradeItemGroupBuilder;
-import net.avdw.eve.tradeitemgroup.repository.TradeItemGroupRepository;
+import net.avdw.eve.domain.region.Region;
+import net.avdw.eve.domain.region.RegionBuilder;
+import net.avdw.eve.domain.region.repository.RegionRepository;
+import net.avdw.eve.domain.solarsystem.SolarSystem;
+import net.avdw.eve.domain.solarsystem.SolarSystemBuilder;
+import net.avdw.eve.domain.solarsystem.repository.SolarSystemRepository;
+import net.avdw.eve.domain.station.Station;
+import net.avdw.eve.domain.station.StationBuilder;
+import net.avdw.eve.domain.station.repository.StationRepository;
+import net.avdw.eve.domain.tradeitem.TradeItem;
+import net.avdw.eve.domain.tradeitem.TradeItemBuilder;
+import net.avdw.eve.domain.tradeitem.repository.TradeItemRepository;
+import net.avdw.eve.domain.tradeitemgroup.TradeItemGroup;
+import net.avdw.eve.domain.tradeitemgroup.TradeItemGroupBuilder;
+import net.avdw.eve.domain.tradeitemgroup.repository.TradeItemGroupRepository;
+import net.avdw.eve.marketer.MarketerApi;
+import net.avdw.eve.marketer.MarketerClient;
 import net.avdw.property.AbstractPropertyModule;
 import net.avdw.repository.Repository;
 import org.tinylog.Logger;
@@ -39,6 +41,8 @@ public class MainModule extends AbstractPropertyModule {
         Properties properties = configureProperties();
         Names.bindProperties(binder(), properties);
         bind(List.class).to(LinkedList.class);
+
+        bind(MarketerApi.class).to(MarketerClient.class);
 
         bind(new TypeLiteral<Repository<TradeItem>>() {
         }).to(TradeItemRepository.class);

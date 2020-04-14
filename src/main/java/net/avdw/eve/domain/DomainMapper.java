@@ -1,7 +1,7 @@
 package net.avdw.eve.domain;
 
 import net.avdw.eve.marketer.MarketerRequest;
-import net.avdw.eve.tradeitem.TradeItem;
+import net.avdw.eve.domain.tradeitem.TradeItem;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
